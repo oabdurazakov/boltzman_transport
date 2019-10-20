@@ -1,0 +1,174 @@
+\documentclass[aps,prl,twocolumn,showpacs,floatfix,superscriptaddress]{revtex4-1}
+\usepackage{dcolumn}
+\usepackage{bm}
+\usepackage{soul}
+\usepackage{amsmath,amssymb,graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage[outdir=./]{epstopdf}
+\usepackage{float}
+\usepackage[colorlinks=true,citecolor=blue,urlcolor=blue,linkcolor=blue]{hyperref}
+\usepackage[caption=false]{subfig}
+\newcommand{\xz}{d$_\mathrm{xz}$\ }
+\newcommand{\yz}{d$_\mathrm{yz}$\ }
+\newcommand{\xy}{d$_\mathrm{xy}$\ }
+\newcommand{\xxyy}{d$_\mathrm{x^2-y^2}$\ }
+\newcommand{\zz}{d$_\mathrm{3z^2-r^2}$\ }
+\newcommand{\eV}{\,\mathrm{eV}}
+\newcommand{\nB}{n_\mathrm{B}}
+\newcommand{\nD}{n_\mathrm{D}}
+\newcommand{\kF}{k_\mathrm{F}}
+\newcommand{\meV}{\,\mathrm{meV}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\kk}{\mathbf{k}}
+\newcommand{\kkp}{\mathbf{k'}}
+\newcommand{\qq}{\mathbf{q}}
+\newcommand{\A}{\mathbf{A}}
+\newcommand{\EE}{\mathbf{E}}
+\newcommand{\filler}[1]{\textcolor{red}{#1}}
+\newcommand{\trel}{t_\mathrm{rel}}
+\newcommand{\tave}{t_\mathrm{ave}}
+\newcommand{\first}{$1^\mathrm{st}$\ }
+\newcommand{\tmin}{t_\mathrm{min}}
+\newcommand{\td}{t_\mathrm{delay}}
+\newcommand{\fs}{\,\mathrm{fs}}
+\newcommand{\resigma}{\mathrm{Re}\Sigma^{\mathrm{R}}}
+\newcommand{\imsigma}{\mathrm{Im}\Sigma^{\mathrm{R}}}
+\newcommand{\repi}{\mathrm{Re}\ \Pi^R}
+\newcommand{\impi}{\mathrm{Im}\ \Pi^R}
+\newcommand{\redr}{\mathrm{Re}\ D^R}
+\newcommand{\imdr}{\mathrm{Im}\ D^R}
+\newcommand{\regr}{\mathrm{Re}\ G^R}
+\newcommand{\imgr}{\mathrm{Im}\ G^R}
+\newcommand{\regl}{\mathrm{Re}\ G^<}
+\newcommand{\imgl}{\mathrm{Im}\ G^<}
+\newcommand{\CC}{\mathcal{C}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\FF}{\mathrm{F}}
+\DeclareGraphicsExtensions{.png,.jpg,.pdf}
+\bibliographystyle{apsrev4-1}
+
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\begin{document}
+\title{Boltzmann equation: scattering terms and beyond}
+\author{O.~Abdurazakov}
+\affiliation{\textbf {NC State} University, Department of Physics, Raleigh, NC 27695}
+
+\begin{abstract}
+In this project, I solve the semiclassical Boltzmann equation in the presence of electron-lattice scattering to study the decay of excited electrons in a model system. The decay rates are found to be dependent on the electronic density of states and lattice temperature.   
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Most of the physical properties materials posses emerge out of the combination or/and competition between varius micrascopic scattering processes electrons experience. Out of these processes, the important ones are electron-impurity, Coulomb, and electron-lattice interactions. Since the advent of ultrafast optical techniques, probing these processes in their intrinsic timescales has been on the focus\cite{giannetti}. Whereas early ultrafast optical techniques such as time-resolved reflectivity only gave indirect access to the electron temperature through the changes caused in the dialectric function under optical excitation,  a direct access to the dynamics of the electronic states through the time- and angle-resolved photoemission spectroscopy has been a big leap in this direction\cite{giannetti}. On the theory side, the description of excited electrons moved beyond multi-temperature models.  To account for the nonthermal behaviour of electrons observed in experiments, the Boltzamann transport equation has been solved numerically\cite{BTE} and analytically for some limiting cases\cite{Kabanov}. Also, numerous advanced computational techniques have been imployed such as time-dependent DMFT\cite{NEDMFT}, nonequilibrium Keldysh method\cite{SentefPRX, KemperPRB}. In this project, we focus on the Boltzmann equation and its application to the dynamics of excited electrons. We compute the evolution of the excited electrons in the presence of electron-lattice scattering. Our main result is the dependence of the electron relaxation rates on the density of states and the lattice temperature. 
+
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{prl.png}
+        \caption{Typical microscopic scattering processes electron experience in a material: electron-impurity, electron-electron, and electron-phonon\cite{YangPRL}}
+        \label{fig:prl}
+\end{figure}
+
+\section{Method and Model}
+
+In the absence of the spacial diffusion of electrons after the optical excitation (typical timescales for the diffusion of electrons in a material are much longer compared to the Coulomb and electron-lattice scattering times), the evolution of the distribution function for the excited electrons is described by the Boltzmann Transport Equation\cite{Ziman}
+\begin{align}
+\dot{f}(\vec{k},t) = I_\mathrm{coll}[f],
+\end{align}
+and $I_\mathrm{coll}[f] = I_\mathrm{e-imp}[f] + I_\mathrm{e-e}[f] + I_\mathrm{e-p}[f]$. 
+Here, the collision term accounts for the different types of scattering processes electrons can encounter in a material: electron-impurity, electron-electron, and electron-phonon interactions. These processes are shown in Fig.\ref{fig:prl}. In the case if impurity scattering, the energy of individual electron is conserved. Scattering off the almost immobile impurity sites can only change the direction of the electron momenta, not the magnitude. On the other hand, electrons can exchange energy and momenta amongst each other under the condition that the total electron energy is conserved. It can be shown that the electron-impurity contribution to the scattering rates is proportional to the density of states, and the Coulomb contribution scales as $1/\tau_\mathrm{e-e}\propto \omega^2 + (\pi T)^2$, where $\omega$ is the electron energy and $T$ is the system temperature, respectively\cite{KemperPRX}. This is the typical behavior of a Fermi liquid, where the electrons behave as a free particle with renormalized parameters due to interactions. Here, we compute the decay rates only due to the electron-phonons scattering. As it was shown earlier that the impurity scattering does not contribute to the relaxation, and the Coulomb scattering only contribute in a subtle way, where the main features of the decay rate as a function of energy can be captured mainly by the electron-boson scattering channel as it is the only process which can draw energy out of electrons and let electrons relax toward the thermodynamic equilibrium\cite{KemperPRX}. Because of the filling and emptying processes from the continuum of energy states, the population density $f(x,t)$ evolves according to the Fermi's Golden rule
+
+\begin{align}
+\partial_t f(x) = & \int d\omega F(\omega)\lambda \bigg\{n(\omega)f(x-\omega)(1-f(x))N(x-\omega) \nonumber \\
+- & n(\omega)f(x)(1-f(x+\omega))N(x+\omega)\nonumber \\
++ &(n(\omega)+1)f(x+\omega)(1-f(x))N(x+\omega)\nonumber \\
+- &(n(\omega)+1)f(x)(1-f(x-\omega))N(x-\omega)\bigg \}\nonumber \\
+ - & \Gamma_\mathrm{esc}f(x),\label{eqn:BTE}         
+\end{align}
+
+where $F$ and $N$ are the phonon and electron density of states, respectively. The phonon occupation number $n$ is given by the Bose function $n(\omega)=1/(e^{\omega/T_\mathrm{ph}}-1)$.  We also assume a constant electron-phonon coupling constant $\lambda$ whose value does not change the results qualitatively. There are two types of scattering processes: intraband and interband. The number of electrons is conserved only in the former case. Electrons can escape from a band via the escape rate is given by $\Gamma_\mathrm{esc}$. We demonstrate our results for a linear electrons DOS and Gaussian shaped phonon DOS around $10\meV$ energy. The choice of the electronic and phononic input parameters are motivated by the 3D topological insulators of the likes Bismuth Selenide/Telluride\cite{Sobota}. The Boltzmann equation is a non-linear integro-differential equation, which can be solved numerically. During the time evolution, the total electron density $n \equiv \int dx N(x)f(x)$ is conserved. We use linearly discretized energy and time grids. The electrons are excited into the band perturbativaly, so the distribution function is given by $f(x,0) = e^{-x/\epsilon_0}$ where $\epsilon_0=0.2\eV$. Initially, the lattice temperature is set to $100\,\mathrm{K}$.
+
+\section{Results}
+
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{time_evol_fermi.png}
+        \caption{Time evolution of the electron distribution function. It evolves toward the Fermi-Dirac distribution function.}
+        \label{fig:tevolution}
+\end{figure}
+
+In Fig.\ref{fig:tevolution}, we present the time evolution of the electron distribution function. The initial Boltzmann type distribution function after some time settles into the Fermi-Dirac type distribution function at the lattice temperature. One can see this by fitting the distribution functions into the Fermi-Dirac distribution function and extract the effective electron temperatures. This is presented in the next figure. In our calculation, the lattice temperature is fixed. This is a good approximation in the low temperature limit, where the lattice heat capacity scales as $(T/T_\mathrm{D})^3$ and the electron heat capacity scales as $T/T_\mathrm{F}$, where $T_\mathrm{D}$ and $T_\mathrm{F}$ are the Debye and Fermi temperatures, respectively. In theory, one can write the same kind of integro-differential equation for the phonon occupation too.
+
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{temp_noescape.png}
+        \caption{Time evolution of the extracted electron temperature. It evolves toward that of the lattice.}
+        \label{fig:temp}
+\end{figure}
+
+Because the number of the electrons excited into the band is conserved through the interband scattering, the populations in lower energy do not decay as it is seen in Fig.\ref{fig:false_color}. Therefore, we set the electron escape rate from the band to be nonzero in order to extract the decay rates.
+ 
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{falsecolor_fermi_noescape.png}
+        \caption{Time evolution of the distribution function at lower energies.}
+        \label{fig:false_color}
+\end{figure}
+
+In Fig.\ref{fig:traces}, the time traces of the electron populations at various energies are given. We can see that the those at higher energies decay faster, and vice versa. We can extract the decay rates by fitting these curves into exponential functions although the curves are not strictly exponential. Figure \ref{fig:rates} shows the extracted rates at various lattice temperatures: $100\,\mathrm{K}, 150\,\mathrm{K}, 200\,\mathrm{K}, 250\,\mathrm{K}, $. The rates are given in arbitrary units because we are only interested in their qualitative behavior with respect to energy and lattice temperature. The finite decay rates at the bottom of the band is equal to the band escape rate. Mostly, the rates scale linearly with energy as do the density of states. This is expected because the number of available states also scale linearly with energy. Also, the rates decrease with the increase of the lattice temperature. This is because the absorption rates go up with increase of the Bose function, which itself increases with increasing temperature.   
+
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{time_trace.png}
+        \caption{Time traces of the distribution function at various energies.}
+        \label{fig:traces}
+\end{figure}
+
+\begin{figure}
+        \includegraphics[width=0.90\columnwidth]{decay_temp.png}
+        \caption{The decay rates of excited electrons at various lattice temperatures.}
+        \label{fig:rates}
+\end{figure}
+
+\section{Conclusions}
+
+In this project, we solve the Boltzmann integro-differential equation numerically in the presence of the electron-phonon collision term to study the dynamics of the excited electrons in a linear electronic band. We find that the relaxation via phonons is an efficient relaxation pathway which can readily draw the excess energy out of electrons even though the phonon dispersion is situated at the very low side of energy spectra. We also find that the decay rates depend on the electron density of states and the lattice temperature. These results may offer a valuable insight into the nonequilibrium phenomena in quantum materials. The calculations can be readily extended to include the phonon occupation number feedback mechanism and the other types of interactions such as impurity and Coulomb scattering. To treat the problem fully quantum mechanically, one needs to solve the Dyson equation self-consistently for the double time electron and phonon correlation functions, where the effect of initial correlations can be included, and the quasiparticle behavior of electrons can be accounted for\cite{algorithm}. 
+
+
+\bibliography{ref}
+
+\section*{Appendix:~Codes}
+
+
+\lstinputlisting[language=python]{/home/omo/advanced_comp_physisc/final_project/boltzmann.py}
+
+\end{document}
